@@ -22,14 +22,20 @@ import {
   Text,
   Header,
   List,
-  CellButton
+  CellButton,
 } from "@vkontakte/vkui";
 import "@vkontakte/vkui/dist/vkui.css";
 import Icon56GalleryOutline from "@vkontakte/icons/dist/56/gallery_outline";
 import Icon56CheckCircleOutline from "@vkontakte/icons/dist/56/check_circle_outline";
 import Icon56AddCircleOutline from "@vkontakte/icons/dist/56/add_circle_outline";
 import Icon36PodcastsOutline from "@vkontakte/icons/dist/36/podcasts_outline";
-import Icon24Add from "@vkontakte/icons/dist/24/add"
+import Icon28AddCircleOutline from "@vkontakte/icons/dist/28/add_circle_outline";
+import Icon28RemoveCircleOutline from "@vkontakte/icons/dist/28/remove_circle_outline";
+import RoadImage from "./road.png"
+import Icon16Play from '@vkontakte/icons/dist/16/play';
+import Icon24ArrowUturnLeftOutline from '@vkontakte/icons/dist/24/arrow_uturn_left_outline';
+import Icon20MusicOutline from '@vkontakte/icons/dist/20/music_outline';
+import Icon28GraphOutline from '@vkontakte/icons/dist/28/graph_outline';
 
 import "./App.css";
 
@@ -40,6 +46,7 @@ function App() {
   const [description, setDescription] = React.useState("");
   const [isLoaded, setIsLoaded] = React.useState(false);
   const [fileName, setFileName] = React.useState("");
+  const [timecodes, setTimecodes] = React.useState([]);
 
   return (
     <View activePanel={currentPanel}>
@@ -240,23 +247,62 @@ function App() {
         </PanelHeader>
         <Group>
           <Div>
-            <Card style={{height: "100px"}}>
-
-            </Card>
-            <Div style={{display:"flex", justifyContent: "space-between"}}>
-              <Button>btn</Button>
-              <Button mode="secondary">btn</Button>
-              <Button mode="secondary">btn</Button>
-              <Button mode="secondary">btn</Button>
-              <Button mode="secondary">btn</Button>
+            <Card style={{ height: "100px", display: "flex", alignItems: "center" }}><img src={RoadImage}></img></Card>
+            <Div style={{ display: "flex", justifyContent: "space-between" }}>
+              <Button style={{ paddingRight: "0px", paddingLeft: "10px", paddingTop: "5px", paddingBottom: "5px"}} before={<Icon16Play width={28} height={28}/>}></Button>
+              <Button style={{ paddingRight: "0px", paddingLeft: "10px", paddingTop: "5px", paddingBottom: "5px"}} before={<Icon24ArrowUturnLeftOutline width={28} height={28}/>} mode="secondary"></Button>
+              <Button style={{ paddingRight: "0px", paddingLeft: "10px", paddingTop: "5px", paddingBottom: "5px"}} before={<Icon20MusicOutline width={28} height={28} />} mode="secondary"></Button>
+              <Button style={{ paddingRight: "0px", paddingLeft: "10px", paddingTop: "5px", paddingBottom: "5px"}} before={<Icon28GraphOutline width={28} height={28}/>} mode="secondary"></Button>
             </Div>
           </Div>
           <Separator></Separator>
           <Header>Таймкоды</Header>
-          <CellButton before={<Icon24Add />}>Добавить таймкод</CellButton>
           <List>
-
+            {timecodes.length > 0 &&
+              timecodes.map((timecode) => {
+                return (
+                  <Div
+                    style={{
+                      display: "flex",
+                      flexDirection: "row",
+                      justifyContent: "space-between",
+                      alignItems: "center",
+                    }}
+                  >
+                    <Icon28RemoveCircleOutline
+                      fill="#E64646"
+                      onClick={() => {
+                        const newTimecodes = [...timecodes];
+                        newTimecodes.pop();
+                        setTimecodes(newTimecodes);
+                      }}
+                    />
+                    <Input type="text" defaultValue={timecode.title} />
+                    <Input type="time" defaultValue={timecode.time}></Input>
+                  </Div>
+                );
+              })}
           </List>
+          <CellButton
+            before={<Icon28AddCircleOutline />}
+            onClick={() => {
+              const newTimecodes = [...timecodes];
+              newTimecodes.push({ title: "Начало обсуждения", time: "05:23" });
+              setTimecodes(newTimecodes);
+            }}
+          >
+            Добавить таймкод
+          </CellButton>
+          <Div
+            style={{
+              padding: "0 16px 16px 16px",
+              fontSize: "14px",
+              color: "#818c99",
+            }}
+          >
+            Отметки времени с названием темы. Позволяют слушателям легче
+            путешествовать по подкасту.
+          </Div>
         </Group>
       </Panel>
       <Panel id="podcastSnippet">
@@ -295,39 +341,41 @@ function App() {
           <Separator />
           <Header>Содержание</Header>
           <List>
-            <Cell before={<span>23:34</span>}>
+            <Cell before={<span>05:41</span>}>
               <Div>
                 <span style={{ marginRight: "6px" }}>-</span> Начало обсуждения
               </Div>
             </Cell>
-            <Cell before={<span>23:34</span>}>
+            <Cell before={<span>15:23</span>}>
               <Div>
-                <span style={{ marginRight: "6px" }}>-</span> Начало обсуждения
+                <span style={{ marginRight: "6px" }}>-</span> Основная тема
+                подкаста
               </Div>
             </Cell>
-            <Cell before={<span>23:34</span>}>
+            <Cell before={<span>25:37</span>}>
               <Div>
-                <span style={{ marginRight: "6px" }}>-</span> Начало обсуждения
+                <span style={{ marginRight: "6px" }}>-</span> Разговор с гостем
               </Div>
             </Cell>
-            <Cell before={<span>23:34</span>}>
+            <Cell before={<span>43:15</span>}>
               <Div>
-                <span style={{ marginRight: "6px" }}>-</span> Начало обсуждения
+                <span style={{ marginRight: "6px" }}>-</span> Рекламная
+                интеграция
               </Div>
             </Cell>
-            <Cell before={<span>23:34</span>}>
+            <Cell before={<span>47:00</span>}>
               <Div>
-                <span style={{ marginRight: "6px" }}>-</span> Начало обсуждения
+                <span style={{ marginRight: "6px" }}>-</span> Вопросы от
+                зрителей
               </Div>
             </Cell>
-            <Cell before={<span>23:34</span>}>
+            <Cell before={<span>58:00</span>}>
               <Div>
-                <span style={{ marginRight: "6px" }}>-</span> Начало обсуждения
+                <span style={{ marginRight: "6px" }}>-</span> Итоги розыгрыша
               </Div>
             </Cell>
           </List>
           <Separator />
-
           <Div>
             <Button size="xl" onClick={() => setCurrentPanel("podcastCreated")}>
               Опубликовать подкаст
